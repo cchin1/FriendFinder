@@ -5,24 +5,27 @@
 // ==============================================================================
 
 var express = require("express");
+// Tells node that we are creating an "express" server
+var app = express();
 var path = require("path");
 var bodyParser = require("body-parser");
+
 
 // ==============================================================================
 // EXPRESS CONFIGURATION
 // This sets up the basic properties for our express server
 // ==============================================================================
 
-// Tells node that we are creating an "express" server
-var app = express();
-
 // Sets an initial port. We"ll use this later in our listener
 var PORT = process.env.PORT || 8080;
 
-// Sets up the Express app to handle data parsing
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
+
+
+// Sets up the Express app to handle data parsing
+app.use(bodyParser.json({ type: 'application/*+json '}))
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
+app.use(bodyParser.text({ type: 'text/html' }))
 
 // ================================================================================
 // ROUTER
@@ -46,7 +49,6 @@ app.listen(PORT, function() {
 
 // * Your survey should have 10 questions of your choosing. Each answer should be on 
 // a scale of 1 to 5 based on how much the user agrees or disagrees with a question.
-
 
 // * You should save your application's data inside of app/data/friends.js as an array of objects. 
 // Determine the user's most compatible friend using the following as a guide:

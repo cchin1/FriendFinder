@@ -170,45 +170,68 @@
   // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
   // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
 
-  $(".submit").on("click", function(event) {
-    event.preventDefault();
 
-    // Here we grab the form elements
-    var newReservation = {
-      customerName: $("#reserve-name").val().trim(),
-      phoneNumber: $("#reserve-phone").val().trim(),
-      customerEmail: $("#reserve-email").val().trim(),
-      customerID: $("#reserve-unique-id").val().trim()
+  // Capture the form inputs
+  $("#submit").on("click", function() {
+
+    // Form validation
+    function validateForm() {
+        var isValid = true;
+        $(".form-control").each(function() {
+            if ($(this).val() === "") {
+                isValid = false;
+            }
+        });
+
+        $(".chosen-select").each(function() {
+            if ($(this).val() === "") {
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+
+  // If all required fields are filled out
+    if (validateForm()) {
+    // Create an object for the user's data
+
+    var userData = {
+      name: $("#name").val().trim(),
+      photo: $("#photo").val().trim(),
+      scores: [
+          $("#q1").val(),
+          $("#q2").val(),
+          $("#q3").val(),
+          $("#q4").val(),
+          $("#q5").val(),
+          $("#q6").val(),
+          $("#q7").val(),
+          $("#q8").val(),
+          $("#q9").val(),
+          $("#q10").val(),
+      ]
     };
 
-    console.log(newReservation);
+    // Grab the URL of the website
+    var currentURL = window.location.origin;
 
-    // This line is the magic. It"s very similar to the standard ajax function we used.
-    // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-    // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-    // depending on if a tables is available or not.
+    // AJAX post the data to the friends API.
+    $.post(currentURL + "/api/friends", userData, function(data) {
 
-    $.post("/api/tables", newReservation,
-      function(data) {
+        // // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+        // $("#matchName").text(data.name);
+        // $("#matchImg").attr("src", data.photo);
 
-        // If a table is available... tell user they are booked.
-        if (data) {
-          alert("Yay! You are officially booked!");
-        }
+        // // Show the modal with the best match
+        // $("#resultsModal").modal("toggle");
+        alert("working");
 
-        // If a table is available... tell user they on the waiting list.
-        else {
-          alert("Sorry you are on the wait list");
-        }
+    });
+}
+else {
+    alert("Please fill out all the fields before submitting!");
+}
 
-        // Clear the form when submitting
-        $("#reserve-name").val("");
-        $("#reserve-phone").val("");
-        $("#reserve-email").val("");
-        $("#reserve-unique-id").val("");
-
-      });
-
-  });
-
+return false;
+});
 </script>

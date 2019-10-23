@@ -6,52 +6,52 @@
 var friends = [
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
     {
     name: "Ahmed",
-    photo: "/../FriendPhoto1.jpg",
+    photo: "",
     scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
     },
 ];
