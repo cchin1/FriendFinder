@@ -160,37 +160,27 @@
   </div>
 
 <!-- MODAL -->
-  <div id="resultsModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h2 class="modal-title"><strong>Best Match</strong></h2>
-            </div>
-            <div class="modal-body">
-                <h2 id="matchName"></h2>
-                <img id="matchImage" class="materialboxed" width="650" src="">2
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-      </div>
-  </div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Best Friend Match</h4>
+        <div class="divider"></div>
+        <h5 id="userMatch"></h5>
+        <img id="userMatchImage" class="materialboxed" width="650" src="">
+    </div>
+    <div class="modal-footer">
+        <a href="/survey" class="modal-action modal-close waves-effect waves-green btn-flat">Fill Again!</a>
+    </div>
+</div>
 
 <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
+
 <script type="text/javascript">
+
   // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
   // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
   // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
   // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
-
-
-  // Capture the form inputs
-  $("#submit").on("click", function() {
 
     // Form validation
     function validateForm() {
@@ -211,49 +201,47 @@
 
   // If all required fields are filled out
     if (validateForm()) {
+
+    // Activate submit button
+
+	$('#submitButton').on('click', function(event) {
+		event.preventDefault();
+
     // Create an object for the user's data
 
     var userData = {
       name: $("#name").val().trim(),
       photo: $("#photo").val().trim(),
       scores: [
-          $("#q1").val(),
-          $("#q2").val(),
-          $("#q3").val(),
-          $("#q4").val(),
-          $("#q5").val(),
-          $("#q6").val(),
-          $("#q7").val(),
-          $("#q8").val(),
-          $("#q9").val(),
-          $("#q10").val(),
+          $("#q1").val().trim(),
+          $("#q2").val().trim(),
+          $("#q3").val().trim(),
+          $("#q4").val().trim(),
+          $("#q5").val().trim(),
+          $("#q6").val().trim(),
+          $("#q7").val().trim(),
+          $("#q8").val().trim(),
+          $("#q9").val().trim(),
+          $("#q10").val().trim(),
       ]
-    };
+   };
+
+   console.log(userData);
 
     // Grab the URL of the website
-    var currentURL = window.location.origin;
+    //var currentURL = window.location.origin;
 
     // AJAX post the data to the friends API.
-    $.post(currentURL + "/api/friends", userData, function(data) {
+    $.post("/api/friends", userData, .done(function(data) {
 
-        // // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-        // $("#matchName").text(data.name);
-        // $("#matchImg").attr("src", data.photo);
-
-        // // Show the modal with the best match
-        $("#resultsModal").modal("toggle");
-        alert("working");
-
+            // Set the name and image values of friend match
+            $('#userMatch').html(data.matchName);
+            $('#userMatchImage').attr("src", data.matchImage);
+            
+		    // Pop open the modal dialog
+      		$('#modal1').modal('open');
     });
-}
-else {
-    alert("Please fill out all the fields before submitting!");
-}
-
-return false;
-});
-
-</script>
-
+  });
+    </script>
 </body>
 </html>
