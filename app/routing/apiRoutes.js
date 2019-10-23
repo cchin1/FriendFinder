@@ -4,7 +4,10 @@
 // These data sources hold arrays of information on table-data, waitinglist, etc.
 // ===============================================================================
 
-var path = required("path");
+// Pulls in required dependencies
+var path = require("path");
+
+// Import the list of friend entries
 var friends = require("../data/friends.js");
 
 // ===============================================================================
@@ -29,8 +32,10 @@ module.exports = function(app) {
   // Then the server saves the data to the tableData array)
   // ---------------------------------------------------------------------------
 
+  // Add a new friend entry
   app.post("/api/friends", function(req, res) {
 
+    // Computing best match
     var bestMatch = {
         name: "",
         photo: "",
@@ -41,32 +46,36 @@ module.exports = function(app) {
 
     // Here we take the result of the user's survey POST and parse it.
     var userData = req.body;
+    console.log("userData = " + JSON.stringify(userData));
+
     var userScores = userData.scores;
+    console.log("userScores = " + userScores);
 
     console.log(userScores);
 
     // This variable will calculate the difference between the user's scores and the scores of each user in the database
-    var totalDifference = 0;
+    var totalDifference = 10000;
 
     // Here we loop through all the friend possibilties in the database. This is the beginning of a nested for-loop.
     for (var i=0; i < friends.length; i++) {
 
         console.log(friends[i]);
-        totalDifference = 0;
+
+        var diff = 0;
 
         // We then loop through all the scores of each friend
         for (var j = 0; j < friends[i].scores[j]; j++) {
 
             // We calculate the difference between the scores and sum them into the totalDifference
-            totalDifference += Math.abs(parseInt(userScores[j]) - parseInt(friends[i].scores[j]));
+            diff += Math.abs(parseInt(userScores[j]) - parseInt(friends[i].scores[j]));
 
             // If the sum of differences is less than the differences of the current "best match"
-            if (totalDifference <= bestMatch.friendDifference.Difference) {
+            if (diff <= bestMatch.friendDifference) {
 
                 // Reset the bestMatch to be the new friend.
                 bestMatch.name = friends[i].name;
                 bestMatch.photo = friends[i].photo;
-                bestMatch.friendDifference = totalDifference;
+                bestMatch.friendDifference = diff;
             }
         }
     }
@@ -75,8 +84,8 @@ module.exports = function(app) {
     // return that the user is the user's best friend).
     friends.push(userData);
 
-    // Retirm a JSON with the user's bestMatch. This will be used by the HTML in the next page
-    res.json(bestMatch);
+    // Return a JSON with the user's bestMatch. This will be used by the HTML in the next page
+    res.json({status: "Great!", bestMatch: bestMatch});
   });
 
 }
