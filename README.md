@@ -1,8 +1,8 @@
 # FriendFinder
 For UW Coding Bootcamp 
-13-Week 02-Homework
-Lead Developer:  Candice Chin
-https://candicechin.com
+* 13-Week 02-Homework
+* Lead Developer:  Candice Chin
+* https://candicechin.com
 
 ## Technologies Used
 JavaScript, jQuery, Express Server and to handle routing, Heroku deployment, Express and Path npm packages, node.JS, Git, GitHub, HTML, Bootstrap
