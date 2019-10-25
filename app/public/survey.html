@@ -161,17 +161,24 @@
 
 <!-- MODAL -->
 
-<div id="modal1" class="modal">
-    <div class="modal-content">
-        <h4>Best Friend Match</h4>
-        <div class="divider"></div>
-        <h5 id="userMatch"></h5>
-        <img id="userMatchImage" class="materialboxed" width="650" src="">
+<div id="resultsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title"><strong>Best Match</strong></h2>
+            </div>
+            <div class="modal-body">
+                <h2 id="matchName"></h2>
+                <img id="matchImg" src="" alt="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
-    <div class="modal-footer">
-        <a href="/survey" class="modal-action modal-close waves-effect waves-green btn-flat">Fill Again!</a>
-    </div>
-</div>
 
 <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
 
@@ -225,62 +232,21 @@
       ]
    };
 
-   console.log(userData);
-
     // Grab the URL of the website
-    //var currentURL = window.location.origin;
+    var currentURL = window.location.origin;
 
     // AJAX post the data to the friends API.
-    $.post("/api/friends", userData, done((data) => {
+    $.post(currentURL + "/api/friends", userData, function(data) {
 
-            // Set the name and image values of friend match
-            $('#userMatch').html(data.matchName);
-            $('#userMatchImage').attr("src", data.matchImage);
-            
-		    // Pop open the modal dialog
-      		$('#modal1').modal('open');
-    }));
+    $("#matchName").text(data.name);
+    $("#matchImg").attr("src", data.photo);
+
+    // Set the name and image values of friend match
+    $("#resultsModal").modal("toggle");
+
+    });
+
     </script>
+
 </body>
 </html>
-
-<script type="text/javascript">
-	$("#submitBtn").on("click", function(event) {
-		event.preventDefault();
-		// Form validation
-		var valid = true;
-		if($("#name").val() === "" || $("#photo").val() === "") {
-			valid = false;
-		} else if($("#question1").val() === "empty" || $("#question2").val() === "empty" || $("#question3").val() === "empty" || $("#question4").val() === "empty" || $("#question5").val() === "empty" || $("#question6").val() === "empty" || $("#question7").val() === "empty" || $("#question8").val() === "empty" || $("#question9").val() === "empty" || $("#question10").val() === "empty") {
-			valid = false;
-		}
-		if(valid === true) {
-			var newUser = {
-				name: $("#name").val().trim(),
-				photo: $("#photo").val().trim(),
-				scores: [
-					$("#question1").val(),
-					$("#question2").val(),
-					$("#question3").val(),
-					$("#question4").val(),
-					$("#question5").val(),
-					$("#question6").val(),
-					$("#question7").val(),
-					$("#question8").val(),
-					$("#question9").val(),
-					$("#question10").val()
-				]
-			};
-			var currentURL = window.location.origin;
-			// Ajax call for receiving response after POST req
-			$.post(currentURL + "/api/friends", newUser, function(data) {
-				$("#bestFriend").text(data.name);
-				$("#bestFriendPhoto").attr("src", data.photo);
-				$("#bestFriendModal").modal("toggle");
-			});
-		} else {
-			// If a required field is missing, show alert
-			alert("Survey is incomplete!");
-		}
-	});
-</script>

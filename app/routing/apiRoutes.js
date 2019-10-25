@@ -15,11 +15,13 @@ var friends = require("../data/friends.js");
 // ===============================================================================
 
 module.exports = function(app) {
+
   // API GET Requests
   // Below code handles when users "visit" a page.
   // In each of the below cases when a user visits a link
   // (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
   // ---------------------------------------------------------------------------
+  
   app.get("/api/friends", function(req, res) {
     res.json(friends);
   });
@@ -33,38 +35,41 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
 
   // Add a new friend entry
+
   app.post("/api/friends", function(req, res) {
 
-    
+    // Computing best match
+    var bestMatch = {
+      name: "",
+      photo: "",
+      friendDifference: 1000
+    };
+
     console.log(req.body);
 
     // Here we take the result of the user's survey POST and parse it.
     var userData = req.body;
-    console.log("userData = " + JSON.stringify(userData));
-
     var userScores = userData.scores;
+
     console.log("userScores = " + userScores);
     
-    // Computing best match
-    var matchName = "";
-    var matchImage = "";
-    var totalDifference = 10000;
+    var totalDifference = 0;
 
     // Here we loop through all the friend possibilties in the database. This is the beginning of a nested for-loop.
     for (var i=0; i < friends.length; i++) {
 
         console.log(friends[i]);
 
-        var diff = 0;
+        totalDifference = 0;
 
         // We then loop through all the scores of each friend
-        for (var j = 0; j < userScores.length; j++) {
+        for (var j = 0; j < friends[i].scores[j]; j++) {
 
             // We calculate the difference between the scores and sum them into the totalDifference
-            diff += Math.abs(parseInt(userScores[j]) - parseInt(friends[i].scores[j]));
+            totalDifference += Math.abs(parseInt(userScores[j]) - parseInt(friends[i].scores[j]));
 
             // If the sum of differences is less than the differences of the current "best match"
-            if (diff <= totalDifference) {
+            if (totalDifference <= bestMatch.friendDifference) {
 
                 // Reset the bestMatch to be the new friend.
                 totalDifference = diff;
