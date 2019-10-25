@@ -34,6 +34,7 @@ Determine the user's most compatible friend using the following as a guide:
 
 ## Link to Deployed Version of App
 https://github.com/cchin1/FriendFinder
+https://git.heroku.com/warm-journey-30185.git
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
